@@ -376,13 +376,9 @@ public class FXMLDocumentController implements Initializable {
             if(verificar!=null){
                 String sqlserver = "SELECT * FROM usuario WHERE usuario = ? and password = ?";
                  try{
-                  preparedStatement = statusConnectionSQL().prepareStatement(sqlserver);
+                  preparedStatement = conexionBDMysql.prepareStatement(sqlserver);
                   preparedStatement.setString(1, usuarios);
                   preparedStatement.setString(2, password);
-                  mostrarTP();
-                  mostrarP();
-                  mostrarRR();
-                  mostrarHF();
                   resultSet = preparedStatement.executeQuery();
                   if(!resultSet.next()){
                       System.out.println("Por favor entrar correctamente con el Usuario and Password en SQL server");
@@ -472,9 +468,9 @@ public class FXMLDocumentController implements Initializable {
     //---------------------------------------------------------------- Conexion de SQL SERVER -----------------------------------------------------------------
     private Connection statusConnectionSQL(){
         try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver")/*.newInstance()*/;
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
             String urlSqlServer="jdbc:sqlserver://localhost:1433;databaseName=jardineria";
-            conexionBDSQL=(Connection) DriverManager.getConnection(urlSqlServer,"SAINZ","12345");
+            conexionBDSQL=(Connection) DriverManager.getConnection(urlSqlServer,"moisesdario","171148");
             if(conexionBDSQL != null){
                 System.out.print("Conectado a SQL Server");
                 return conexionBDSQL;
@@ -812,7 +808,6 @@ public class FXMLDocumentController implements Initializable {
     private void insertTP(){
         String nombreTipo=txtTipo.getText();
         almacenarTipoProducto(nombreTipo);
-<<<<<<< HEAD
         String mysql="INSERT INTO tipoproducto (tipo) VALUES ('"+nombreTipo+"')";
         try{
             Statement st=conexionBDMysql.createStatement();
@@ -823,32 +818,6 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Conexion fallida");
             System.out.println("Error" + e);                  
         }    
-=======
-        String conexion= (String) combo.getSelectionModel().getSelectedItem();
-        if(conexion.equals("MySQL")){
-            String mysql="INSERT INTO tipoproducto (tipo) VALUES ('"+nombreTipo+"')";
-            try{
-                Statement st=conexionBDMysql.createStatement();
-                st.executeUpdate(mysql);
-                System.out.println("Datos agregado"+mysql);
-            }catch(SQLException e){
-                System.out.println("Conexion fallida");
-                System.out.println("Error" + e);                  
-            }
-        }
-        //---------------------------------------------------       SQL Server      ----------------------------------------------------------------------------
-        if(conexion.equals("SQL Server")){
-            String sql="INSERT INTO tipoproducto (tipo) VALUES ('"+nombreTipo+"')";
-            try{
-                Statement st=conexionBDSQL.createStatement();
-                st.executeUpdate(sql);
-                System.out.println("Datos agregado"+sql);
-            }catch(SQLException e){
-                System.out.println("Conexion fallida");
-                System.out.println("Error" + e);                  
-            }
-        }
->>>>>>> 9b14a6adb9b8d024e1e592cd28ade6752ad05b41
       this.ventana_menu.setVisible(true);
       this.ventana_agregarTipo.setVisible(false);
       
@@ -863,7 +832,7 @@ public class FXMLDocumentController implements Initializable {
         if(conexion.equals("MySQL")){          
             conexion1=statusConnectionMySQL();
             try{
-                String mysql="Select tipo from tipoproducto" ;
+                String mysql="Select tipo from tipoproducto Where tipo" ;
                 Statement st= conexionBDMysql.createStatement();
                 st.executeUpdate(mysql);
                 System.out.println("Dato de tipo producto esta almacenado");
@@ -872,27 +841,13 @@ public class FXMLDocumentController implements Initializable {
                 System.out.println("Error" + e);              }    
             this.ventana_menu.setVisible(true);
             this.ventana_agregarTipo.setVisible(false);     
-        }
-        //------------------------------------------------------    SQL Server  ----------------------------------------------------------------------------------------------
-        if(conexion.equals("SQL Server")){          
-            conexion1=statusConnectionSQL();
-            try{
-                String sql="Select tipo from tipoproducto" ;
-                Statement st= conexionBDSQL.createStatement();
-                st.executeUpdate(sql);
-                System.out.println("Dato de tipo producto esta al macenado");
-            }catch(SQLException e){
-                System.out.println("Conexion fallida");
-                System.out.println("Error" + e);              }    
-            this.ventana_menu.setVisible(true);
-            this.ventana_agregarTipo.setVisible(false);     
-        }
+        }      
     }    
     //----------------------------------------------------------- Metodo de mostrar tipo producto -------------------------------------------------------------------------------
     private void mostrarTP(){
           String conexion= (String) combo.getSelectionModel().getSelectedItem();
         
-        if(conexion.equals("Mysql"))
+        if("MySQL".equals(conexion))
         {      
             try{   
                 String mysql = "select id_tipo,tipo from tipoproducto ";
@@ -909,31 +864,6 @@ public class FXMLDocumentController implements Initializable {
             }
             catch(ClassNotFoundException | SQLException e){
                 System.out.println("Error de conexión de My Sql" + e);
-            }
-            txtIdTP.setCellValueFactory(new PropertyValueFactory<>("id_tipo"));
-            txtTP.setCellValueFactory(new PropertyValueFactory<>("tipo"));
-            tablaTipoProducto.setItems(dataTP);     
-        }
-        else{
-            System.out.println("No conexion");
-        }
-        //------------------------------------------------------------------    SQL Server-------------------------------------------------------------------------------------
-        if(conexion.equals("SQL Server"))
-        {      
-            try{   
-                String sql = "select id_tipo,tipo from tipoproducto ";
-                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                conexionBDSQL = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=jardineria","SAINZ","12345");             
-                txtIdTP.setText("ID");
-                txtTP.setText("Tipo de producto");
-                Statement st = conexionBDSQL.createStatement();
-                ResultSet rs = st.executeQuery(sql);
-                while(rs.next()){
-                    dataTP.add(new TipoProducto(rs.getString("id_tipo"),rs.getString("tipo")));
-                }
-            }
-            catch(ClassNotFoundException | SQLException e){
-                System.out.println("Error de conexión de SQL Server" + e);
             }
             txtIdTP.setCellValueFactory(new PropertyValueFactory<>("id_tipo"));
             txtTP.setCellValueFactory(new PropertyValueFactory<>("tipo"));
@@ -1016,23 +946,6 @@ public class FXMLDocumentController implements Initializable {
             this.btnAgregarTipo.setVisible(true);
             this.btnEditarProductoContinuar.setVisible(false);
         }
-        if(conexion.equals("SQL Server")){          
-            conexion1=statusConnectionSQL();
-            try{
-                String sql="UPDATE tipoproducto Set tipo='"+nombreTipo+"' where id_tipo='"+idEditar+"'" ;
-                Statement st= conexionBDSQL.createStatement();
-                st.executeUpdate(sql);
-                System.out.println("Entra: "+sql);
-//System.out.println("Dato eliminado");
-            }catch(SQLException e){
-                System.out.println("Conexion fallida de editar");
-                System.out.println("Error" + e);              }    
-            this.ventana_menu.setVisible(true);
-            this.ventana_agregarTipo.setVisible(false);
-            this.txtTipo.setText("");
-            this.btnAgregarTipo.setVisible(true);
-            this.btnEditarProductoContinuar.setVisible(false);
-        }
     }
     //---------------------------------------------------- Metodo de Eliminar tipo producto -------------------------------------------------------------------
     @FXML
@@ -1070,21 +983,7 @@ public class FXMLDocumentController implements Initializable {
             this.ventana_menu.setVisible(true);
             this.ventana_agregarTipo.setVisible(false);     
             this.txtTipo.setText(""); 
-        }
-        if(conexion.equals("SQL Server")){          
-            conexion1=statusConnectionSQL();
-            try{
-                String sql="DELETE FROM tipoproducto WHERE id_tipo='"+idEliminar+"'" ;
-                Statement st= conexionBDSQL.createStatement();
-                st.executeUpdate(sql);
-                System.out.println("Dato eliminado");
-            }catch(SQLException e){
-                System.out.println("Conexion fallida");
-                System.out.println("Error" + e);              }    
-            this.ventana_menu.setVisible(true);
-            this.ventana_agregarTipo.setVisible(false);     
-            this.txtTipo.setText(""); 
-        }
+        }           
     }
     //-------------------------------------------------------- Metodos de crear Registro de Riego --------------------------------------------------------
     @FXML
@@ -1102,7 +1001,6 @@ public class FXMLDocumentController implements Initializable {
     public void insertRR(){
         String dateregistroriego = textDataRiego.getValue().toString();
         String producto = (String) combo2.getSelectionModel().getSelectedItem();
-<<<<<<< HEAD
         int Productosumado = posicionProducto; 
         String mysql="INSERT INTO registroriego (fechariego,producto,id_producto) VALUES ('"+dateregistroriego+"','"+producto+"','"+Productosumado+"')";
         try{
@@ -1117,47 +1015,13 @@ public class FXMLDocumentController implements Initializable {
       this.ventana_registroRiego.setVisible(false);
       
       this.textDataRiego.setValue(null); 
-=======
-        String conexion=(String) combo.getSelectionModel().getSelectedItem();
-        if(conexion.equals("Mysql")){
-            String mysql="INSERT INTO registroriego (fechariego,producto) VALUES ('"+dateregistroriego+"','"+producto+"')";
-            try{
-                Statement st=conexionBDMysql.createStatement();
-                st.executeUpdate(mysql);
-                System.out.println("Datos agregado de registro de riego ");
-            }catch(SQLException e){
-                System.out.println("Conexion fallida");
-                System.out.println("Error" + e);                  
-            }    
-          this.ventana_menu.setVisible(true);
-          this.ventana_registroRiego.setVisible(false);
-
-          this.textDataRiego.setValue(null); 
-        }
-        //------------------------------------------------------------- SQL Server-----------------------------------------------------------------------------------
-        if(conexion.equals("SQL Server")){
-            String sql="INSERT INTO registroriego (fechariego,producto) VALUES ('"+dateregistroriego+"','"+producto+"')";
-            try{
-                Statement st=conexionBDSQL.createStatement();
-                st.executeUpdate(sql);
-                System.out.println("Datos agregado de registro de riego ");
-            }catch(SQLException e){
-                System.out.println("Conexion fallida");
-                System.out.println("Error" + e);                  
-            }    
-          this.ventana_menu.setVisible(true);
-          this.ventana_registroRiego.setVisible(false);
-
-          this.textDataRiego.setValue(null); 
-        }
->>>>>>> 9b14a6adb9b8d024e1e592cd28ade6752ad05b41
     }
     //---------------------------------------------------------- Metodo de Mostrar Registro de  ---------------------------------------------------------------------
     private void mostrarRR(){
       
         String conexion= (String) combo.getSelectionModel().getSelectedItem();
         //  conexion=statusConnectionMySQL();
-        if(conexion.equals("Mysql"))
+        if("MySQL".equals(conexion))
         {      
             try{   
                 String mysql = "select id_riego,fechariego,producto,id_producto from registroriego ";
@@ -1182,34 +1046,6 @@ public class FXMLDocumentController implements Initializable {
             txtFechaRegistro.setCellValueFactory(new PropertyValueFactory<>("fechariego"));
             txtProducto.setCellValueFactory(new PropertyValueFactory<>("producto"));
             txtIDProductoRR.setCellValueFactory(new PropertyValueFactory<>("id_producto"));
-            tablaRegistroRiego.setItems(dataRR);        
-        }
-        else{
-            System.out.println("No conexion");
-        }
-        //------------------------------------------------------------------- SQL Server -----------------------------------------------------------------------------------------
-        if(conexion.equals("SQL Server"))
-        {      
-            try{   
-                String sql = "select id_riego,fechariego,producto from registroriego ";
-                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                conexionBDSQL = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=jardineria","SAINZ","12345");             
-                txtIdRiego.setText("ID");
-                txtFechaRegistro.setText("Fecha de Registro");
-                txtProducto.setText("Producto");
-                Statement st = conexionBDSQL.createStatement();
-                ResultSet rs = st.executeQuery(sql);
-                while(rs.next()){
-                    dataRR.add(new RegistroRiego(rs.getString("id_riego"),rs.getString("fechariego"),rs.getString("producto")));
-
-                }
-            }
-            catch(ClassNotFoundException | SQLException e){
-                System.out.println("Error de conexión de My Sql" + e);
-            }
-            txtIdRiego.setCellValueFactory(new PropertyValueFactory<>("id_riego"));
-            txtFechaRegistro.setCellValueFactory(new PropertyValueFactory<>("fechariego"));
-            txtProducto.setCellValueFactory(new PropertyValueFactory<>("producto"));
             tablaRegistroRiego.setItems(dataRR);        
         }
         else{
@@ -1266,26 +1102,6 @@ public class FXMLDocumentController implements Initializable {
             this.btnEditarContinuarRiego.setVisible(false);
             //this.txtId.setText(""); 
         }
-        //---------------------------------------------------------------- SQL Server ------------------------------------------------------------------------------------------
-        if(conexion.equals("SQL Server")){          
-            conexion1=statusConnectionSQL();
-            try{
-                String sql="UPDATE registroriego Set fechariego='"+dateregistroriego+"',producto='"+producto+"' where id_riego='"+idEditar+"'" ;
-                Statement st= conexionBDSQL.createStatement();
-                st.executeQuery(sql);
-                System.out.println("Entra: "+sql);
-//System.out.println("Dato eliminado");
-            }catch(SQLException e){
-                System.out.println("Conexion fallida de editar");
-                System.out.println("Error" + e);              }    
-            this.ventana_menu.setVisible(true);
-            this.ventana_registroRiego.setVisible(false);
-            this.btnAgregarR.setVisible(true);
-            txtIdRegistroRiego.setText("");
-            this.txtIdRegistroRiego.setVisible(false);
-            this.btnEditarContinuarRiego.setVisible(false);
-            //this.txtId.setText(""); 
-        }
     }
     //------------------------------------------------------ Metodo de eliminar registro de riego-------------------------------------------------------
     @FXML
@@ -1318,24 +1134,8 @@ public class FXMLDocumentController implements Initializable {
                 System.out.println("Error" + e);              }    
             this.ventana_menu.setVisible(true);
             this.ventana_agregarTipo.setVisible(false);     
-            this.txtIdRegistroRiego.setText("");
-            this.txtIdRegistroRiego.setVisible(false);
-        }
-        //------------------------------------------------------------------- SQL Server----------------------------------------------------------------------------------
-        if(conexion.equals("SQL Server")){          
-            conexion1=statusConnectionSQL();
-            try{
-                String sql="DELETE FROM registroriego WHERE id_riego='"+idEliminar+"'" ;
-                Statement st= conexionBDSQL.createStatement();
-                st.executeUpdate(sql);
-                System.out.println("Dato eliminado");
-            }catch(SQLException e){
-                System.out.println("Conexion fallida");
-                System.out.println("Error" + e);              }    
-            this.ventana_menu.setVisible(true);
-            this.ventana_agregarTipo.setVisible(false);     
             this.txtTipo.setText(""); 
-        }
+        }           
     }
     //------------------------------------------------------ Metodos de crear producto ------------------------------------------------------------------
    /* private void listaTipo(){
@@ -1354,14 +1154,8 @@ public class FXMLDocumentController implements Initializable {
        String tipoProducto = (String) combo1.getSelectionModel().getSelectedItem();
        String condicionProducto = textCondicionP.getText();  
        String fechaIngreso = textFechaP.getValue().toString();
-<<<<<<< HEAD
         int Tiposumado = posicionTipo; 
         String mysql="INSERT INTO producto (nombreproducto,tipoproducto,condicionactual,fechaingreso,id_tipo) VALUES ('"+nombreproducto+"','"+tipoProducto+"','"+condicionProducto+"','"+fechaIngreso+"','"+Tiposumado+"')";
-=======
-       String conexion=(String)combo.getSelectionModel().getSelectedItem();
-       if(conexion.equals("MySQl")){
-        String mysql="INSERT INTO producto (nombreProducto,tipoProducto,condicionActual,fechaIngreso) VALUES ('"+nombreproducto+"','"+tipoProducto+"','"+condicionProducto+"','"+fechaIngreso+"')";
->>>>>>> 9b14a6adb9b8d024e1e592cd28ade6752ad05b41
         try{
             Statement st=conexionBDMysql.createStatement();
             st.executeUpdate(mysql);
@@ -1371,33 +1165,13 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Conexion fallida");
             System.out.println("Error" + e);                  
         }    
-        this.ventana_menu.setVisible(true);
-        this.ventana_agregarProducto.setVisible(false);
-
-        this.textNombreP.setText(""); 
-        this.textTipoProducto.setText("");
-        this.textCondicionP.setText(""); 
-        this.textFechaP.setValue(null); 
-       }
-       //------------------------------------------------------------- SQL Server-------------------------------------------------------------------------------
-       if(conexion.equals("SQL Server")){
-           String sql="INSERT INTO producto (nombreProducto,tipoProducto,condicionActual,fechaIngreso) VALUES ('"+nombreproducto+"','"+tipoProducto+"','"+condicionProducto+"','"+fechaIngreso+"')";
-        try{
-            Statement st=conexionBDSQL.createStatement();
-            st.executeUpdate(sql);
-            System.out.println("Datos agregado ");
-        }catch(SQLException e){
-            System.out.println("Conexion fallida");
-            System.out.println("Error" + e);                  
-        }    
-        this.ventana_menu.setVisible(true);
-        this.ventana_agregarProducto.setVisible(false);
-
-        this.textNombreP.setText(""); 
-        this.textTipoProducto.setText("");
-        this.textCondicionP.setText(""); 
-        this.textFechaP.setValue(null); 
-       }
+      this.ventana_menu.setVisible(true);
+      this.ventana_agregarProducto.setVisible(false);
+      
+      this.textNombreP.setText(""); 
+      this.textTipoProducto.setText("");
+      this.textCondicionP.setText(""); 
+      this.textFechaP.setValue(null); 
     }
     //------------------------------------------------------ Almacenamiento de Combo Box ---------------------------------------------------------------------------------------
     public void almacenarProducto(String nombreproducto){
@@ -1415,29 +1189,9 @@ public class FXMLDocumentController implements Initializable {
             }catch(SQLException e){
                 System.out.println("Conexion fallida");
                 System.out.println("Error" + e);              }    
-<<<<<<< HEAD
             //this.ventana_menu.setVisible(true);
             //this.ventana_agregarTipo.setVisible(false);     
         }      
-=======
-            this.ventana_menu.setVisible(true);
-            this.ventana_agregarProducto.setVisible(false);     
-        }
-        //-------------------------------------------------------------- SQL Server----------------------------------------------------------------------------------------------
-        if(conexion.equals("SQL Server")){          
-            conexion1=statusConnectionSQL();
-            try{
-                String sql="Select nombreproducto from producto" ;
-                Statement st= conexionBDSQL.createStatement();
-                st.executeUpdate(sql);
-                System.out.println("Dato de producto esta almacenado");
-            }catch(SQLException e){
-                System.out.println("Conexion fallida");
-                System.out.println("Error" + e);              }    
-            this.ventana_menu.setVisible(true);
-            this.ventana_agregarProducto.setVisible(false);     
-        }
->>>>>>> 9b14a6adb9b8d024e1e592cd28ade6752ad05b41
     }
     //------------------------------------------------------- Metodo de Mostrar --------------------------------------------------------------------------
     private void mostrarP(){
@@ -1471,35 +1225,6 @@ public class FXMLDocumentController implements Initializable {
             txtCondicionActual.setCellValueFactory(new PropertyValueFactory<>("condicionactual"));
             txtFechaIngreso.setCellValueFactory(new PropertyValueFactory<>("fechaingreso"));
             txtIDTipo.setCellValueFactory(new PropertyValueFactory<>("id_tipo"));
-            tablaProducto.setItems(dataP);        
-        }
-        //------------------------------------------------------------- SQL Server----------------------------------------------------------------------------------------------
-        if(conexion.equals("SQL Server"))
-        {      
-            try{   
-                String sql = "select id_producto,nombreproducto,tipoproducto,condicionactual,fechaingreso from producto ";
-                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                conexionBDMysql = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=jardineria","SAINZ","12345");             
-                txtIdTP.setText("ID");
-                txtNombre.setText("Nombre de Producto");
-                txtTipoProducto.setText("Tipo de Producto");
-                txtCondicionActual.setText("Condicion Actual");
-                txtFechaIngreso.setText("Fecha de Ingreso");
-                Statement st = conexionBDSQL.createStatement();
-                ResultSet rs = st.executeQuery(sql);
-                while(rs.next()){
-                    dataP.add(new Producto(rs.getString("id_producto"),rs.getString("nombreproducto"),rs.getString("tipoproducto"),rs.getString("condicionactual"),rs.getString("fechaingreso")));
-
-                }
-            }
-            catch(ClassNotFoundException | SQLException e){
-                System.out.println("Error de conexión de SQL Server" + e);
-            }
-            txtIdP.setCellValueFactory(new PropertyValueFactory<>("id_producto"));
-            txtNombre.setCellValueFactory(new PropertyValueFactory<>("nombreproducto"));
-            txtTipoProducto.setCellValueFactory(new PropertyValueFactory<>("tipoproducto"));
-            txtCondicionActual.setCellValueFactory(new PropertyValueFactory<>("condicionactual"));
-            txtFechaIngreso.setCellValueFactory(new PropertyValueFactory<>("fechaingreso"));
             tablaProducto.setItems(dataP);        
         }
         else{
@@ -1566,25 +1291,6 @@ public class FXMLDocumentController implements Initializable {
             this.btnEditarProductoContinuar.setVisible(false);
             this.btnAgregarP.setVisible(true);
         }
-        //---------------------------------------------------------------- SQL Server ----------------------------------------------------------------------------
-        if(conexion.equals("SQL Server")){          
-            conexion1=statusConnectionSQL();
-            try{
-                String sql="UPDATE producto Set nombreProducto='"+nombreproducto+"',tipoProducto='"+tipoProducto+"',condicionActual='"+condicionProducto+"',fechaIngreso='"+fechaIngreso+"' where id_producto='"+ idEditar+"'";
-                Statement st= conexionBDSQL.createStatement();
-                st.executeUpdate(sql);
-                System.out.println("Entra: "+sql);
-//System.out.println("Dato eliminado");
-            }catch(SQLException e){
-                System.out.println("Conexion fallida de editar");
-                System.out.println("Error" + e);              }    
-            this.ventana_menu.setVisible(true);
-            this.ventana_agregarProducto.setVisible(false);
-            this.txtIdProducto.setText("");
-            this.txtIdProducto.setVisible(false);
-            this.btnEditarProductoContinuar.setVisible(false);
-            this.btnAgregarP.setVisible(true);
-        }
     }
     //-------------------------------------------------Metodos para eliminar-----------------------------------------------------------------
     @FXML
@@ -1614,21 +1320,6 @@ public class FXMLDocumentController implements Initializable {
                 String mysql="DELETE FROM producto WHERE id_producto='"+idEliminar+"'" ;
                 Statement st= conexionBDMysql.createStatement();
                 st.executeUpdate(mysql);
-                System.out.println("Dato eliminado");
-            }catch(SQLException e){
-                System.out.println("Conexion fallida");
-                System.out.println("Error" + e);              }    
-            this.ventana_menu.setVisible(true);
-            this.ventana_agregarTipo.setVisible(false);     
-            this.txtTipo.setText(""); 
-        }
-        //------------------------------------------------------------------- SQL Server -----------------------------------------------------------------------------------------
-        if(conexion.equals("SQL Server")){          
-            conexion1=statusConnectionSQL();
-            try{
-                String sql="DELETE FROM producto WHERE id_producto='"+idEliminar+"'" ;
-                Statement st= conexionBDSQL.createStatement();
-                st.executeUpdate(sql);
                 System.out.println("Dato eliminado");
             }catch(SQLException e){
                 System.out.println("Conexion fallida");
@@ -1672,7 +1363,6 @@ public class FXMLDocumentController implements Initializable {
     private void insertHF(){
         String fechaHistorial = textDateHistorial.getValue().toString();
         String fotografia = urlHistorial.getText().toString();
-<<<<<<< HEAD
          int Productosumado = posicionProducto; 
         System.out.println(""+fotografia);
         String mysql="INSERT INTO historial (fechahistorial,fotografia,id_producto) VALUES ('"+fechaHistorial+"','"+fotografia+"','"+Productosumado+"')";
@@ -1689,43 +1379,6 @@ public class FXMLDocumentController implements Initializable {
       this.urlHistorial.setText("");  
       this.ventana_registroHistorial.setVisible(false);
       this.ventana_menu.setVisible(true);
-=======
-        String conexion=(String) combo.getSelectionModel().getSelectedItem();
-        //System.out.println(""+fotografia);
-        if(conexion.equals("MySQL")){
-            String mysql="INSERT INTO historial (fechahistorial,fotografia) VALUES ('"+fechaHistorial+"','"+fotografia+"')";
-            try{
-                Statement st=conexionBDMysql.createStatement();
-                st.executeUpdate(mysql);
-                System.out.println("Datos agregado ");
-            }catch(SQLException e){
-                System.out.println("Conexion fallida");
-                System.out.println("Error" + e);                  
-            }    
-
-          this.textFechaP.setValue(null); 
-          this.urlHistorial.setText("");  
-          this.ventana_registroHistorial.setVisible(false);
-          this.ventana_menu.setVisible(true);
-        }
-        //------------------------------------------------------------- SQL Server --------------------------------------------------------------------------------------------
-        if(conexion.equals("SQL Server")){
-            String sql="INSERT INTO historial (fechahistorial,fotografia) VALUES ('"+fechaHistorial+"','"+fotografia+"')";
-            try{
-                Statement st=conexionBDSQL.createStatement();
-                st.executeUpdate(sql);
-                System.out.println("Datos agregado ");
-            }catch(SQLException e){
-                System.out.println("Conexion fallida");
-                System.out.println("Error" + e);                  
-            }    
-
-          this.textFechaP.setValue(null); 
-          this.urlHistorial.setText("");  
-          this.ventana_registroHistorial.setVisible(false);
-          this.ventana_menu.setVisible(true);
-        }
->>>>>>> 9b14a6adb9b8d024e1e592cd28ade6752ad05b41
     }
     
     //--------------------------------------------- Metodo de Mostrar -------------------------------------------
@@ -1755,31 +1408,6 @@ public class FXMLDocumentController implements Initializable {
             txtFechaHistorial.setCellValueFactory(new PropertyValueFactory<>("fechahistorial"));
             txtUrlHistorial.setCellValueFactory(new PropertyValueFactory<>("fotografia"));
             txtIDProductoH.setCellValueFactory(new PropertyValueFactory<>("id_producto"));
-            tablaHistorial.setItems(dataHF);        
-        }
-        //---------------------------------------------------------- SQL Server ---------------------------------------------------------------------------------------------------
-        if(conexion.equals("SQL Server"))
-        {      
-            try{   
-                String sql = "select id_historial,fechahistorial,fotografia from historial ";
-                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                conexionBDSQL = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=jardineria","SAINZ","12345");             
-                txtIdHistorial.setText("ID");
-                txtFechaHistorial.setText("Fecha de Historial");
-                txtUrlHistorial.setText("Fotografia");
-                Statement st = conexionBDSQL.createStatement();
-                ResultSet rs = st.executeQuery(sql);
-                while(rs.next()){
-                    dataHF.add(new HistorialFotografia(rs.getString("id_historial"),rs.getString("fechahistorial"),rs.getString("fotografia")));
-
-                }
-            }
-            catch(ClassNotFoundException | SQLException e){
-                System.out.println("Error de conexión de My Sql" + e);
-            }
-            txtIdHistorial.setCellValueFactory(new PropertyValueFactory<>("id_historial"));
-            txtFechaHistorial.setCellValueFactory(new PropertyValueFactory<>("fechahistorial"));
-            txtUrlHistorial.setCellValueFactory(new PropertyValueFactory<>("fotografia"));
             tablaHistorial.setItems(dataHF);        
         }
         else{
@@ -1825,29 +1453,10 @@ public class FXMLDocumentController implements Initializable {
         if(conexion.equals("MySQL")){          
             conexion1=statusConnectionMySQL();
             try{
-                String mysql="UPDATE historial Set fechahistorial='"+fechaHistorial+"',fotografia='"+fotografia+"' where id_historial='"+idEditar+"'";
+                String mysql="UPDATE historial Set fechahistorial='"+fechaHistorial+"',fotografia='"+fotografia+"'";
                 Statement st= conexionBDMysql.prepareStatement(mysql);
                 st.executeUpdate(mysql);
                 System.out.println("Entra: "+mysql);
-//System.out.println("Dato eliminado");
-            }catch(SQLException e){
-                System.out.println("Conexion fallida de editar");
-                System.out.println("Error" + e);              }    
-            this.ventana_menu.setVisible(true);
-            this.ventana_registroHistorial.setVisible(false);
-            this.txtIdHistorialFoto.setText("");
-            this.txtIdHistorialFoto.setVisible(false);
-            this.btnAgregarHistorial.setVisible(false);
-            this.btnEditarHistorial.setVisible(false);
-        }
-        //-------------------------------------------------------------------- SQL Server -------------------------------------------------------------------------------------
-        if(conexion.equals("SQL Server")){          
-            conexion1=statusConnectionSQL();
-            try{
-                String sql="UPDATE historial Set fechahistorial='"+fechaHistorial+"',fotografia='"+fotografia+"' where id_historial='"+idEditar+"'";
-                Statement st= conexionBDSQL.createStatement();
-                st.executeUpdate(sql);
-                System.out.println("Entra: "+sql);
 //System.out.println("Dato eliminado");
             }catch(SQLException e){
                 System.out.println("Conexion fallida de editar");
@@ -1887,21 +1496,6 @@ public class FXMLDocumentController implements Initializable {
                 String mysql="DELETE FROM historial WHERE id_historial='"+idEliminar+"'" ;
                 Statement st= conexionBDMysql.createStatement();
                 st.executeUpdate(mysql);
-                System.out.println("Dato eliminado");
-            }catch(SQLException e){
-                System.out.println("Conexion fallida");
-                System.out.println("Error" + e);              }    
-            this.ventana_menu.setVisible(true);
-            this.ventana_registroHistorial.setVisible(false);     
-            this.txtIdHistorialFoto.setText(""); 
-        }
-        //------------------------------------------------------------------ SQL Server -------------------------------------------------------------------------------------------
-        if(conexion.equals("SQL Server")){          
-            conexion1=statusConnectionSQL();
-            try{
-                String sql="DELETE FROM historial WHERE id_historial='"+idEliminar+"'" ;
-                Statement st= conexionBDMysql.createStatement();
-                st.executeUpdate(sql);
                 System.out.println("Dato eliminado");
             }catch(SQLException e){
                 System.out.println("Conexion fallida");
