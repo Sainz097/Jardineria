@@ -8,8 +8,14 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+<<<<<<< HEAD
     <jar href="Jardineria.jar" size="6348373" download="eager" />
     <jar href="lib\mysql-connector-java-5.1.42-bin.jar" size="996444" download="eager" />
+=======
+    <jar href="Jardineria.jar" size="6347655" download="eager" />
+    <jar href="lib\mysql-connector-java-5.0.8-bin.jar" size="540852" download="eager" />
+    <jar href="lib\sqljdbc4.jar" size="584207" download="eager" />
+>>>>>>> 9b14a6adb9b8d024e1e592cd28ade6752ad05b41
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="Jardineria" >
     <param name="requiredFXVersion" value="8.0+"/>
