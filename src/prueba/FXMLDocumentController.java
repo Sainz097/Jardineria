@@ -426,7 +426,7 @@ public class FXMLDocumentController implements Initializable {
         try{
             String urlMysql="jdbc:mysql://localhost:3306/jardineria";
             Class.forName("com.mysql.jdbc.Driver").newInstance();       
-            conexionBDMysql=(Connection) DriverManager.getConnection(urlMysql,"root","");
+            conexionBDMysql=(Connection) DriverManager.getConnection(urlMysql,"root","slmca");
             if(conexionBDMysql != null){
                 // System.out.print("Conectado a MySQL");
                 return conexionBDMysql;
@@ -550,7 +550,7 @@ public class FXMLDocumentController implements Initializable {
             try{   
                 String mysql = "select id_tipo,tipo from tipoproducto ";
                 Class.forName("com.mysql.jdbc.Driver");
-                conexionBDMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/jardineria","root","");             
+                conexionBDMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/jardineria","root","slmca");             
                 txtIdTP.setText("ID");
                 txtTP.setText("Tipo de producto");
                 Statement st = conexionBDMysql.createStatement();
@@ -722,7 +722,7 @@ public class FXMLDocumentController implements Initializable {
             try{   
                 String mysql = "select id_riego,fechariego,producto from registroriego ";
                 Class.forName("com.mysql.jdbc.Driver");
-                conexionBDMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/jardineria","root","");             
+                conexionBDMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/jardineria","root","slmca");             
                 txtIdRiego.setText("ID");
                 txtFechaRegistro.setText("Fecha de Registro");
                 txtProducto.setText("Producto");
@@ -894,7 +894,7 @@ public class FXMLDocumentController implements Initializable {
             try{   
                 String mysql = "select id_producto,nombreproducto,tipoproducto,condicionactual,fechaingreso from producto ";
                 Class.forName("com.mysql.jdbc.Driver");
-                conexionBDMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/jardineria","root","");             
+                conexionBDMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/jardineria","root","slmca");             
                 txtIdTP.setText("ID");
                 txtNombre.setText("Nombre de Producto");
                 txtTipoProducto.setText("Tipo de Producto");
@@ -1079,7 +1079,7 @@ public class FXMLDocumentController implements Initializable {
             try{   
                 String mysql = "select id_historial,fechahistorial,fotografia from historial ";
                 Class.forName("com.mysql.jdbc.Driver");
-                conexionBDMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/jardineria","root","");             
+                conexionBDMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/jardineria","root","slmca");             
                 txtIdHistorial.setText("ID");
                 txtFechaHistorial.setText("Fecha de Historial");
                 txtUrlHistorial.setText("Fotografia");
