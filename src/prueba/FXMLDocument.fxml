@@ -14,7 +14,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="843.0" prefWidth="1148.0" style="-fx-background-color: #9C2B27;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="prueba.FXMLDocumentController">
     <children>
-      <AnchorPane fx:id="ventana_inicio" layoutX="-4.0" layoutY="-7.0" prefHeight="828.0" prefWidth="1145.0" style="-fx-background-color: #9C2B27;" visible="false">
+      <AnchorPane fx:id="ventana_inicio" layoutX="-4.0" layoutY="-7.0" prefHeight="828.0" prefWidth="1145.0" style="-fx-background-color: #9C2B27;">
          <children>
             <Label layoutX="515.0" layoutY="117.0" text="Login" textFill="#fcf9f9">
                <font>
@@ -92,7 +92,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="ventana_menu" layoutX="-11.0" layoutY="-6.0" prefHeight="843.0" prefWidth="1148.0" style="-fx-background-color: white;">
+      <AnchorPane fx:id="ventana_menu" layoutX="-11.0" layoutY="-6.0" prefHeight="843.0" prefWidth="1148.0" style="-fx-background-color: white;" visible="false">
          <children>
             <TabPane layoutX="6.0" layoutY="56.0" prefHeight="784.0" prefWidth="1145.0" style="-fx-background-color: write;" tabClosingPolicy="UNAVAILABLE">
          <tabs>
@@ -151,13 +151,14 @@
                            </font>
                         </Label>
                         <Button fx:id="btnlistP" layoutX="890.0" layoutY="10.0" mnemonicParsing="false" onAction="#btnlistPAction" onMouseClicked="#btnlistPAction" style="-fx-background-color: aqua;" text="Agregar nuevo" />
-                        <TableView fx:id="tablaProducto" layoutX="263.0" layoutY="153.0" prefHeight="439.0" prefWidth="665.0">
+                        <TableView fx:id="tablaProducto" layoutX="128.0" layoutY="153.0" prefHeight="439.0" prefWidth="800.0">
                           <columns>
                             <TableColumn fx:id="txtIdP" prefWidth="75.0" text="ID" />
-                            <TableColumn fx:id="txtNombre" prefWidth="75.0" text="Nombre" />
-                              <TableColumn fx:id="txtTipoProducto" prefWidth="150.0" text="Tipo de Producto" />
-                              <TableColumn fx:id="txtCondicionActual" prefWidth="169.0" text="Condicion Actual" />
-                              <TableColumn fx:id="txtFechaIngreso" prefWidth="194.0" text="Fecha de Ingreso" />
+                            <TableColumn fx:id="txtNombre" prefWidth="142.0" text="Nombre" />
+                              <TableColumn fx:id="txtTipoProducto" prefWidth="153.0" text="Tipo de Producto" />
+                              <TableColumn fx:id="txtCondicionActual" prefWidth="160.0" text="Condicion Actual" />
+                              <TableColumn fx:id="txtFechaIngreso" prefWidth="148.0" text="Fecha de Ingreso" />
+                                    <TableColumn fx:id="txtIDTipo" minWidth="0.0" prefWidth="121.0" text="Id_Tipo" />
                           </columns>
                         </TableView>
                               <Button fx:id="btnEditarP" layoutX="1009.0" layoutY="251.0" mnemonicParsing="false" onAction="#btnEditarP" style="-fx-background-color: red;" text="Editar" textFill="WHITE">
@@ -194,11 +195,12 @@
                            </font>
                         </Label>
                         <Button fx:id="btnlistRR" layoutX="892.0" layoutY="7.0" mnemonicParsing="false" onAction="#btnlistRRAction" onMouseClicked="#btnlistRRAction" style="-fx-background-color: aqua;" text="Agregar nuevo" />
-                        <TableView fx:id="tablaRegistroRiego" layoutX="377.0" layoutY="96.0" prefHeight="599.0" prefWidth="392.0">
+                        <TableView fx:id="tablaRegistroRiego" layoutX="258.0" layoutY="96.0" prefHeight="599.0" prefWidth="511.0">
                           <columns>
                             <TableColumn fx:id="txtIdRiego" prefWidth="75.0" text="ID" />
                             <TableColumn fx:id="txtFechaRegistro" prefWidth="157.0" text="Fecha Riego" />
                                     <TableColumn fx:id="txtProducto" prefWidth="158.0" text="Producto" />
+                                    <TableColumn fx:id="txtIDProductoRR" prefWidth="120.0" text="Id_Producto" />
                           </columns>
                         </TableView>
                               <Button fx:id="btnEditarRiego" layoutX="863.0" layoutY="134.0" mnemonicParsing="false" onAction="#btnEditarRiego" style="-fx-background-color: red;" text="Editar" textFill="WHITE">
@@ -232,11 +234,12 @@
                               
                            </font>
                         </Label>
-                        <TableView fx:id="tablaHistorial" layoutX="318.0" layoutY="81.0" prefHeight="584.0" prefWidth="507.0">
+                        <TableView fx:id="tablaHistorial" layoutX="221.0" layoutY="81.0" prefHeight="584.0" prefWidth="604.0">
                           <columns>
                             <TableColumn fx:id="txtIdHistorial" prefWidth="75.0" text="ID" />
-                            <TableColumn fx:id="txtFechaHistorial" prefWidth="156.0" text="Fecha de Historial" />
-                                    <TableColumn fx:id="txtUrlHistorial" prefWidth="275.0" text="Fotografia" />
+                            <TableColumn fx:id="txtFechaHistorial" prefWidth="164.0" text="Fecha de Historial" />
+                                    <TableColumn fx:id="txtUrlHistorial" prefWidth="177.0" text="Fotografia" />
+                                    <TableColumn fx:id="txtIDProductoH" prefWidth="217.0" text="Id_Producto" />
                           </columns>
                         </TableView>
                         <Button fx:id="btnlistHAction" layoutX="984.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#btnlistHAction" style="-fx-background-color: aqua;" text="Agregar Nuevo" />
@@ -273,30 +276,30 @@
                                  </font>
                               </Label>
                               <Button layoutX="924.0" layoutY="82.0" mnemonicParsing="false" onAction="#btnCerrar" onMouseClicked="#btnCerrar" style="-fx-background-color: aqua;" text="Cerrar Sesion" />
-                              <LineChart layoutX="29.0" layoutY="80.0" prefHeight="601.0" prefWidth="737.0">
+                              <LineChart fx:id="grafSentencia" layoutX="29.0" layoutY="80.0" prefHeight="601.0" prefWidth="737.0">
                                 <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
+                                  <CategoryAxis fx:id="Eje" side="BOTTOM" />
                                 </xAxis>
                                 <yAxis>
                                   <NumberAxis side="LEFT" />
                                 </yAxis>
                               </LineChart>
-                              <Button layoutX="828.0" layoutY="159.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Graficar Rep. Tipo de Producto" textFill="WHITE">
+                              <Button layoutX="827.0" layoutY="159.0" mnemonicParsing="false" onAction="#btnreporteTP" style="-fx-background-color: red;" text="Graficar Reporte 1" textFill="WHITE">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="895.0" layoutY="234.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Graficar Rep. Producto" textFill="WHITE">
+                              <Button layoutX="895.0" layoutY="234.0" mnemonicParsing="false"  onAction="#btnReporteP" style="-fx-background-color: red;" text="Graficar Reporte 2" textFill="WHITE">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="819.0" layoutY="309.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Graficar Rep. Registro de Riego" textFill="WHITE">
+                              <Button layoutX="819.0" layoutY="309.0" mnemonicParsing="false" onAction="#btnReporteRR" style="-fx-background-color: red;" text="Graficar Reporte 3" textFill="WHITE">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="784.0" layoutY="389.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Graficar Rep. Historial de Fotografia" textFill="WHITE">
+                              <Button layoutX="784.0" layoutY="389.0" mnemonicParsing="false" onAction="#btnReporteHF" style="-fx-background-color: red;" text="Graficar Reporte 4" textFill="WHITE">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -320,7 +323,7 @@
       </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="ventana_agregarTipo" prefHeight="889.0" prefWidth="1163.0" style="-fx-background-color: write;" visible="false">
+      <AnchorPane fx:id="ventana_agregarTipo" prefHeight="889.0" prefWidth="1163.0" visible="false">
             <children>
       <Button fx:id="btnAgregarTipo" layoutX="494.0" layoutY="415.0" mnemonicParsing="false" onAction="#btnAgregarTipoProducto" style="-fx-background-color: red;" text="Agregar" textFill="WHITE">
          <font>
@@ -472,6 +475,7 @@
                <font>
                   <Font size="20.0" />
                </font></Button>
+            <TextField fx:id="textTipoProducto" layoutX="877.0" layoutY="229.0" promptText="Ingrese un tipo producto" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="ventana_presentacion" prefHeight="889.0" prefWidth="1170.0" visible="false">

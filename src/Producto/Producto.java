@@ -15,19 +15,21 @@ public class Producto {
     String tipoproducto;
     String condicionactual;
     String fechaingreso;
+    String id_tipo;
     
     public Producto(){
         
     }
 
-    public Producto(String id_producto, String nombreproducto, String tipoproducto, String condicionactual, String fechaingreso) {
+    public Producto(String id_producto, String nombreproducto, String tipoproducto, String condicionactual, String fechaingreso, String id_tipo) {
         this.id_producto = id_producto;
         this.nombreproducto = nombreproducto;
         this.tipoproducto = tipoproducto;
         this.condicionactual = condicionactual;
         this.fechaingreso = fechaingreso;
+        this.id_tipo = id_tipo;
     }
-
+    
     
     public String getId_producto() {
         return id_producto;
@@ -68,7 +70,13 @@ public class Producto {
     public void setFechaingreso(String fechaingreso) {
         this.fechaingreso = fechaingreso;
     }
-   
-    
+
+    public String getId_tipo() {
+        return id_tipo;
+    }
+
+    public void setId_tipo(String id_tipo) {
+        this.id_tipo = id_tipo;
+    }
     
 }

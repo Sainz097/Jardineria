@@ -11,12 +11,13 @@ package RegistroRiego;
  */
 public class RegistroRiego {
     
-    String id_riego,fechariego,producto;
+    String id_riego,fechariego,producto,id_producto;
 
-    public RegistroRiego(String id_riego, String fechariego, String producto) {
+    public RegistroRiego(String id_riego, String fechariego, String producto, String id_producto) {
         this.id_riego = id_riego;
         this.fechariego = fechariego;
         this.producto = producto;
+        this.id_producto = id_producto;
     }
 
     public String getId_riego() {
@@ -42,6 +43,15 @@ public class RegistroRiego {
     public void setProducto(String producto) {
         this.producto = producto;
     }
-    
+
+    public String getId_producto() {
+        return id_producto;
+    }
+
+    public void setId_producto(String id_producto) {
+        this.id_producto = id_producto;
+    }
+
+   
     
 }

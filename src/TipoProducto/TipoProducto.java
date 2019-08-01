@@ -26,7 +26,6 @@ public class TipoProducto {
     }
      */
     public TipoProducto( String id_tipo,String tipo) {
-        super();
         this.id_tipo = id_tipo;
         this.tipo = tipo;
     }
