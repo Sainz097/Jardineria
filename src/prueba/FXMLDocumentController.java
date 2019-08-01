@@ -236,31 +236,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private PasswordField textpassword;
-    //------------------------------------------------------------------------------------
-    @FXML
-    private Tab btnReportes; //Reportes de Grafica
-    
-    @FXML
-    private LineChart<String, Integer> grafSentencia; 
-    
-    @FXML 
-    private ObservableList<String> leyenda;
-    
-    @FXML
-    private CategoryAxis Eje;
-    
-    @FXML
-    private Button btnreporteTP; //Reporte de Producto
-    
-    @FXML
-    private Button btnReporteP; //Reporte de Producto
-    
-    @FXML
-    private Button btnReporteRR; //Reporte de Registro de Riego
-       
-    @FXML
-    private Button btnReporteHF; //Reporte de Historial de Fotografia
-    
+  
     //------------------------------------- Elementos de crear ------------------------------------- 
     
     @FXML
@@ -812,7 +788,6 @@ public class FXMLDocumentController implements Initializable {
     private void insertTP(){
         String nombreTipo=txtTipo.getText();
         almacenarTipoProducto(nombreTipo);
-<<<<<<< HEAD
         String mysql="INSERT INTO tipoproducto (tipo) VALUES ('"+nombreTipo+"')";
         try{
             Statement st=conexionBDMysql.createStatement();
@@ -823,7 +798,6 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Conexion fallida");
             System.out.println("Error" + e);                  
         }    
-=======
         String conexion= (String) combo.getSelectionModel().getSelectedItem();
         if(conexion.equals("MySQL")){
             String mysql="INSERT INTO tipoproducto (tipo) VALUES ('"+nombreTipo+"')";
@@ -848,7 +822,6 @@ public class FXMLDocumentController implements Initializable {
                 System.out.println("Error" + e);                  
             }
         }
->>>>>>> 9b14a6adb9b8d024e1e592cd28ade6752ad05b41
       this.ventana_menu.setVisible(true);
       this.ventana_agregarTipo.setVisible(false);
       
@@ -1102,7 +1075,6 @@ public class FXMLDocumentController implements Initializable {
     public void insertRR(){
         String dateregistroriego = textDataRiego.getValue().toString();
         String producto = (String) combo2.getSelectionModel().getSelectedItem();
-<<<<<<< HEAD
         int Productosumado = posicionProducto; 
         String mysql="INSERT INTO registroriego (fechariego,producto,id_producto) VALUES ('"+dateregistroriego+"','"+producto+"','"+Productosumado+"')";
         try{
@@ -1117,7 +1089,6 @@ public class FXMLDocumentController implements Initializable {
       this.ventana_registroRiego.setVisible(false);
       
       this.textDataRiego.setValue(null); 
-=======
         String conexion=(String) combo.getSelectionModel().getSelectedItem();
         if(conexion.equals("Mysql")){
             String mysql="INSERT INTO registroriego (fechariego,producto) VALUES ('"+dateregistroriego+"','"+producto+"')";
@@ -1150,7 +1121,6 @@ public class FXMLDocumentController implements Initializable {
 
           this.textDataRiego.setValue(null); 
         }
->>>>>>> 9b14a6adb9b8d024e1e592cd28ade6752ad05b41
     }
     //---------------------------------------------------------- Metodo de Mostrar Registro de  ---------------------------------------------------------------------
     private void mostrarRR(){
@@ -1354,14 +1324,10 @@ public class FXMLDocumentController implements Initializable {
        String tipoProducto = (String) combo1.getSelectionModel().getSelectedItem();
        String condicionProducto = textCondicionP.getText();  
        String fechaIngreso = textFechaP.getValue().toString();
-<<<<<<< HEAD
-        int Tiposumado = posicionTipo; 
-        String mysql="INSERT INTO producto (nombreproducto,tipoproducto,condicionactual,fechaingreso,id_tipo) VALUES ('"+nombreproducto+"','"+tipoProducto+"','"+condicionProducto+"','"+fechaIngreso+"','"+Tiposumado+"')";
-=======
-       String conexion=(String)combo.getSelectionModel().getSelectedItem();
+        int Tiposumado = posicionTipo;
+       //String conexion=(String)combo.getSelectionModel().getSelectedItem();
        if(conexion.equals("MySQl")){
-        String mysql="INSERT INTO producto (nombreProducto,tipoProducto,condicionActual,fechaIngreso) VALUES ('"+nombreproducto+"','"+tipoProducto+"','"+condicionProducto+"','"+fechaIngreso+"')";
->>>>>>> 9b14a6adb9b8d024e1e592cd28ade6752ad05b41
+        String mysql="INSERT INTO producto (nombreproducto,tipoproducto,condicionactual,fechaingreso,id_tipo) VALUES ('"+nombreproducto+"','"+tipoProducto+"','"+condicionProducto+"','"+fechaIngreso+"','"+Tiposumado+"')";
         try{
             Statement st=conexionBDMysql.createStatement();
             st.executeUpdate(mysql);
@@ -1415,12 +1381,10 @@ public class FXMLDocumentController implements Initializable {
             }catch(SQLException e){
                 System.out.println("Conexion fallida");
                 System.out.println("Error" + e);              }    
-<<<<<<< HEAD
             //this.ventana_menu.setVisible(true);
             //this.ventana_agregarTipo.setVisible(false);     
         }      
-=======
-            this.ventana_menu.setVisible(true);
+           this.ventana_menu.setVisible(true);
             this.ventana_agregarProducto.setVisible(false);     
         }
         //-------------------------------------------------------------- SQL Server----------------------------------------------------------------------------------------------
@@ -1437,7 +1401,6 @@ public class FXMLDocumentController implements Initializable {
             this.ventana_menu.setVisible(true);
             this.ventana_agregarProducto.setVisible(false);     
         }
->>>>>>> 9b14a6adb9b8d024e1e592cd28ade6752ad05b41
     }
     //------------------------------------------------------- Metodo de Mostrar --------------------------------------------------------------------------
     private void mostrarP(){
@@ -1672,7 +1635,6 @@ public class FXMLDocumentController implements Initializable {
     private void insertHF(){
         String fechaHistorial = textDateHistorial.getValue().toString();
         String fotografia = urlHistorial.getText().toString();
-<<<<<<< HEAD
          int Productosumado = posicionProducto; 
         System.out.println(""+fotografia);
         String mysql="INSERT INTO historial (fechahistorial,fotografia,id_producto) VALUES ('"+fechaHistorial+"','"+fotografia+"','"+Productosumado+"')";
@@ -1689,7 +1651,6 @@ public class FXMLDocumentController implements Initializable {
       this.urlHistorial.setText("");  
       this.ventana_registroHistorial.setVisible(false);
       this.ventana_menu.setVisible(true);
-=======
         String conexion=(String) combo.getSelectionModel().getSelectedItem();
         //System.out.println(""+fotografia);
         if(conexion.equals("MySQL")){
@@ -1725,7 +1686,6 @@ public class FXMLDocumentController implements Initializable {
           this.ventana_registroHistorial.setVisible(false);
           this.ventana_menu.setVisible(true);
         }
->>>>>>> 9b14a6adb9b8d024e1e592cd28ade6752ad05b41
     }
     
     //--------------------------------------------- Metodo de Mostrar -------------------------------------------
