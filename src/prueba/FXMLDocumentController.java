@@ -490,14 +490,12 @@ public class FXMLDocumentController implements Initializable {
             conexion1=statusConnectionMySQL();
             try{   
                 Class.forName("com.mysql.jdbc.Driver");
-                conexionBDMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/jardineria","root","slmca");             
-                txtIdTP.setText("ID");
-                txtTP.setText("Tipo de producto");
-                Statement st2 = conexionBDMysql.createStatement();
+                conexionBDMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/jardineria","root","slmca");           
+                Statement st = conexionBDMysql.createStatement();
                 String mysql2 = "select r.fechariego, count(*)Riego from registroriego r "
                         + " group by fechariego";
                 System.out.println("Tabla de Registro de Riego " + mysql2);
-                ResultSet rs2 = st2.executeQuery(mysql2);
+                ResultSet rs2 = st.executeQuery(mysql2);
                   
                 XYChart.Series<String, Integer> dataSeries2 = new XYChart.Series<>();
                
@@ -510,6 +508,7 @@ public class FXMLDocumentController implements Initializable {
                 }
                 Eje.setCategories(leyenda);  // se asigna la leyenda a la grafica
                 grafSentencia.getData().addAll(dataSeries2); // se agrega la serie de datos
+               
             }
             catch(ClassNotFoundException | SQLException e){
                 System.out.println("Error de conexión de My Sql" + e);
@@ -524,25 +523,23 @@ public class FXMLDocumentController implements Initializable {
             try{   
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 conexionBDSQL = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=jardineria");             
-                txtIdTP.setText("ID");
-                txtTP.setText("Tipo de producto");
-                Statement st2 = conexionBDSQL.createStatement();
-                String mysql2 = "select r.fechariego, count(*)Riego from registroriego r "
+                Statement st = conexionBDSQL.createStatement();
+                String mysql3 = "select r.fechariego, count(*)Riego from registroriego r "
                         + " group by fechariego";
-                System.out.println("Tabla de Registro de Riego " + mysql2);
-                ResultSet rs2 = st2.executeQuery(mysql2);
+                System.out.println("Tabla de Registro de Riego " + mysql3);
+                ResultSet rs3 = st.executeQuery(mysql3);
                   
-                XYChart.Series<String, Integer> dataSeries2 = new XYChart.Series<>();
+                XYChart.Series<String, Integer> dataSeries3 = new XYChart.Series<>();
                
                 // crea la variable para almacenar las leyendas
                 leyenda =  FXCollections.observableArrayList();
 
-                while(rs2.next()){
-                    leyenda.add(""+rs2.getString(1)); // se agrega como leyenda el campo que que quiera, debe coincidir con la serie
-                    dataSeries2.getData().add(new XYChart.Data<>(""+rs2.getString(1), rs2.getInt(2))); // posicion 1 es la leyenda    
+                while(rs3.next()){
+                    leyenda.add(""+rs3.getString(1)); // se agrega como leyenda el campo que que quiera, debe coincidir con la serie
+                    dataSeries3.getData().add(new XYChart.Data<>(""+rs3.getString(1), rs3.getInt(2))); // posicion 1 es la leyenda    
                 }
                 Eje.setCategories(leyenda);  // se asigna la leyenda a la grafica
-                grafSentencia.getData().addAll(dataSeries2); // se agrega la serie de datos
+                grafSentencia.getData().addAll(dataSeries3); // se agrega la serie de datos
             }
             catch(ClassNotFoundException | SQLException e){
                 System.out.println("Error de conexión de SQL Server" + e);
@@ -561,26 +558,24 @@ public class FXMLDocumentController implements Initializable {
             try{   
                 Class.forName("com.mysql.jdbc.Driver");
                 conexionBDMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/jardineria","root","slmca");             
-                txtIdTP.setText("ID");
-                txtTP.setText("Tipo de producto");
                 Statement st = conexionBDMysql.createStatement();
-                String mysql = "select t.tipo, count(*)Producto from tipoproducto t inner join producto p "
+                String mysql4 = "select t.tipo, count(*)Producto from tipoproducto t inner join producto p "
                         + " on t.id_tipo = p.id_tipo "
                         + " group by tipo";
-                System.out.println("Tabla de Tipo Producto " + mysql);
-                ResultSet rs = st.executeQuery(mysql);
+                System.out.println("Tabla de Tipo Producto " + mysql4);
+                ResultSet rs4 = st.executeQuery(mysql4);
                   
-                XYChart.Series<String, Integer> dataSeries1 = new XYChart.Series<>();
+                XYChart.Series<String, Integer> dataSeries4 = new XYChart.Series<>();
                
                 // crea la variable para almacenar las leyendas
                 leyenda =  FXCollections.observableArrayList();
 
-                while(rs.next()){
-                    leyenda.add(""+rs.getString(1)); // se agrega como leyenda el campo que que quiera, debe coincidir con la serie
-                    dataSeries1.getData().add(new XYChart.Data<>(""+rs.getString(1), rs.getInt(2))); // posicion 1 es la leyenda    
+                while(rs4.next()){
+                    leyenda.add(""+rs4.getString(1)); // se agrega como leyenda el campo que que quiera, debe coincidir con la serie
+                    dataSeries4.getData().add(new XYChart.Data<>(""+rs4.getString(1), rs4.getInt(2))); // posicion 1 es la leyenda    
                 }
                 Eje.setCategories(leyenda);  // se asigna la leyenda a la grafica
-                grafSentencia.getData().addAll(dataSeries1); // se agrega la serie de datos
+                grafSentencia.getData().addAll(dataSeries4); // se agrega la serie de datos
             }
             catch(ClassNotFoundException | SQLException e){
                 System.out.println("Error de conexión de My Sql" + e);
@@ -596,26 +591,24 @@ public class FXMLDocumentController implements Initializable {
             try{   
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 conexionBDSQL = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=jardineria");                   
-                txtIdTP.setText("ID");
-                txtTP.setText("Tipo de producto");
                 Statement st = conexionBDSQL.createStatement();
-                String mysql = "select t.tipo, count(*)Producto from tipoproducto t inner join producto p "
+                String mysql5 = "select t.tipo, count(*)Producto from tipoproducto t inner join producto p "
                         + " on t.id_tipo = p.id_tipo "
                         + " group by tipo";
-                System.out.println("Tabla de Tipo Producto " + mysql);
-                ResultSet rs = st.executeQuery(mysql);
+                System.out.println("Tabla de Tipo Producto " + mysql5);
+                ResultSet rs5 = st.executeQuery(mysql5);
                   
-                XYChart.Series<String, Integer> dataSeries1 = new XYChart.Series<>();
+                XYChart.Series<String, Integer> dataSeries5 = new XYChart.Series<>();
                
                 // crea la variable para almacenar las leyendas
                 leyenda =  FXCollections.observableArrayList();
 
-                while(rs.next()){
-                    leyenda.add(""+rs.getString(1)); // se agrega como leyenda el campo que que quiera, debe coincidir con la serie
-                    dataSeries1.getData().add(new XYChart.Data<>(""+rs.getString(1), rs.getInt(2))); // posicion 1 es la leyenda    
+                while(rs5.next()){
+                    leyenda.add(""+rs5.getString(1)); // se agrega como leyenda el campo que que quiera, debe coincidir con la serie
+                    dataSeries5.getData().add(new XYChart.Data<>(""+rs5.getString(1), rs5.getInt(2))); // posicion 1 es la leyenda    
                 }
                 Eje.setCategories(leyenda);  // se asigna la leyenda a la grafica
-                grafSentencia.getData().addAll(dataSeries1); // se agrega la serie de datos
+                grafSentencia.getData().addAll(dataSeries5); // se agrega la serie de datos
             }
             catch(ClassNotFoundException | SQLException e){
                 System.out.println("Error de conexión de SQL SERVER" + e);
@@ -629,30 +622,30 @@ public class FXMLDocumentController implements Initializable {
      @FXML
     private void btnReporteP() throws SQLException{
         String conexion= (String) combo.getSelectionModel().getSelectedItem();
-        if("MySQL".equals(conexion)){          
+        if(conexion.equals("MySQL")){          
             conexion1=statusConnectionMySQL();
             try{   
                 Class.forName("com.mysql.jdbc.Driver");
                 conexionBDMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/jardineria","root","slmca");             
-                txtIdTP.setText("ID");
-                txtTP.setText("Tipo de producto");
-                Statement st3 = conexionBDMysql.createStatement();
-                String mysql = "select p.condicionactual, count(*)Producto from producto p "
+                txtIdP.setText("ID");
+                txtCondicionActual.setText("Condicion Actual");
+                Statement st = conexionBDMysql.createStatement();
+                String mysql6 = "select p.condicionactual, count(*)Producto from producto p "
                         + " group by condicionactual";
-                System.out.println("Tabla de Producto " + mysql);
-                ResultSet rs3 = st3.executeQuery(mysql);
+                System.out.println("Tabla de Producto " + mysql6);
+                ResultSet rs6 = st.executeQuery(mysql6);
                   
-                XYChart.Series<String, Integer> dataSeries3 = new XYChart.Series<>();
+                XYChart.Series<String, Integer> dataSeries6 = new XYChart.Series<>();
                
                 // crea la variable para almacenar las leyendas
                 leyenda =  FXCollections.observableArrayList();
 
-                while(rs3.next()){
-                    leyenda.add(""+rs3.getString(1)); // se agrega como leyenda el campo que que quiera, debe coincidir con la serie
-                    dataSeries3.getData().add(new XYChart.Data<>(""+rs3.getString(1), rs3.getInt(2))); // posicion 1 es la leyenda    
+                while(rs6.next()){
+                    leyenda.add(""+rs6.getString(1)); // se agrega como leyenda el campo que que quiera, debe coincidir con la serie
+                    dataSeries6.getData().add(new XYChart.Data<>(""+rs6.getString(1), rs6.getInt(2))); // posicion 1 es la leyenda    
                 }
                 Eje.setCategories(leyenda);  // se asigna la leyenda a la grafica
-                grafSentencia.getData().addAll(dataSeries3); // se agrega la serie de datos
+                grafSentencia.getData().addAll(dataSeries6); // se agrega la serie de datos
             }
             catch(ClassNotFoundException | SQLException e){
                 System.out.println("Error de conexión de My Sql" + e);
@@ -668,25 +661,25 @@ public class FXMLDocumentController implements Initializable {
             try{   
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 conexionBDSQL = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=jardineria");                     
-                txtIdTP.setText("ID");
-                txtTP.setText("Tipo de producto");
-                Statement st3 = conexionBDSQL.createStatement();
-                String mysql = "select p.condicionactual, count(*)Producto from producto p "
+                txtIdP.setText("ID");
+                txtCondicionActual.setText("Condicion Actual");
+                Statement st = conexionBDSQL.createStatement();
+                String mysql7 = "select p.condicionactual, count(*)Producto from producto p "
                         + " group by condicionactual";
-                System.out.println("Tabla de Producto " + mysql);
-                ResultSet rs3 = st3.executeQuery(mysql);
+                System.out.println("Tabla de Producto " + mysql7);
+                ResultSet rs7 = st.executeQuery(mysql7);
                   
-                XYChart.Series<String, Integer> dataSeries3 = new XYChart.Series<>();
+                XYChart.Series<String, Integer> dataSeries7 = new XYChart.Series<>();
                
                 // crea la variable para almacenar las leyendas
                 leyenda =  FXCollections.observableArrayList();
 
-                while(rs3.next()){
-                    leyenda.add(""+rs3.getString(1)); // se agrega como leyenda el campo que que quiera, debe coincidir con la serie
-                    dataSeries3.getData().add(new XYChart.Data<>(""+rs3.getString(1), rs3.getInt(2))); // posicion 1 es la leyenda    
+                while(rs7.next()){
+                    leyenda.add(""+rs7.getString(1)); // se agrega como leyenda el campo que que quiera, debe coincidir con la serie
+                    dataSeries7.getData().add(new XYChart.Data<>(""+rs7.getString(1), rs7.getInt(2))); // posicion 1 es la leyenda    
                 }
                 Eje.setCategories(leyenda);  // se asigna la leyenda a la grafica
-                grafSentencia.getData().addAll(dataSeries3); // se agrega la serie de datos
+                grafSentencia.getData().addAll(dataSeries7); // se agrega la serie de datos
             }
             catch(ClassNotFoundException | SQLException e){
                 System.out.println("Error de conexión de SQL SERVER" + e);
@@ -700,31 +693,31 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void btnReporteHF() throws SQLException{
         String conexion= (String) combo.getSelectionModel().getSelectedItem();
-        if("MySQL".equals(conexion)){          
+        if(conexion.equals("MySQL")){          
             conexion1=statusConnectionMySQL();
-            try{   
-                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                conexionBDSQL = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=jardineria");                               
+            try{ 
+                Class.forName("com.mysql.jdbc.Driver");
+                conexionBDMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/jardineria","root","slmca");                                
                 txtIdTP.setText("ID");
                 txtTP.setText("Tipo de producto");
-                Statement st4 = conexionBDSQL.createStatement();
-                String mysql4 = "select t.tipo, count(*)Fotografias from tipoproducto t inner join historial h "
+                Statement st = conexionBDMysql.createStatement();
+                String mysql8 = "select t.tipo, count(*)Fotografias from tipoproducto t inner join historial h "
                         + " on t.id_tipo = h.id_historial "
                         + " group by tipo";
-                System.out.println("Tabla Historial con Tipo de Producto " + mysql4);
-                ResultSet rs4 = st4.executeQuery(mysql4);
+                System.out.println("Tabla Historial con Tipo de Producto " + mysql8);
+                ResultSet rs8 = st.executeQuery(mysql8);
                   
-                XYChart.Series<String, Integer> dataSeries4 = new XYChart.Series<>();
+                XYChart.Series<String, Integer> dataSeries8 = new XYChart.Series<>();
                
                 // crea la variable para almacenar las leyendas
                 leyenda =  FXCollections.observableArrayList();
 
-                while(rs4.next()){
-                    leyenda.add(""+rs4.getString(1)); // se agrega como leyenda el campo que que quiera, debe coincidir con la serie
-                    dataSeries4.getData().add(new XYChart.Data<>(""+rs4.getString(1), rs4.getInt(2))); // posicion 1 es la leyenda    
+                while(rs8.next()){
+                    leyenda.add(""+rs8.getString(1)); // se agrega como leyenda el campo que que quiera, debe coincidir con la serie
+                    dataSeries8.getData().add(new XYChart.Data<>(""+rs8.getString(1), rs8.getInt(2))); // posicion 1 es la leyenda    
                 }
                 Eje.setCategories(leyenda);  // se asigna la leyenda a la grafica
-                grafSentencia.getData().addAll(dataSeries4); // se agrega la serie de datos
+                grafSentencia.getData().addAll(dataSeries8); // se agrega la serie de datos
             }
             catch(ClassNotFoundException | SQLException e){
                 System.out.println("Error de conexión de My SQL" + e);
@@ -738,28 +731,28 @@ public class FXMLDocumentController implements Initializable {
          if("SQL Server".equals(conexion)){          
             conexion1=statusConnectionMySQL();
             try{   
-                Class.forName("com.mysql.jdbc.Driver");
-                conexionBDMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/jardineria","root","slmca");             
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                conexionBDSQL = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=jardineria");          
                 txtIdTP.setText("ID");
                 txtTP.setText("Tipo de producto");
-                Statement st4 = conexionBDMysql.createStatement();
-                String mysql4 = "select t.tipo, count(*)Fotografias from tipoproducto t inner join historial h "
+                Statement st1 = conexionBDSQL.createStatement();
+                String mysql9 = "select t.tipo, count(*)Fotografias from tipoproducto t inner join historial h "
                         + " on t.id_tipo = h.id_historial "
                         + " group by tipo";
-                System.out.println("Tabla Historial con Tipo de Producto " + mysql4);
-                ResultSet rs4 = st4.executeQuery(mysql4);
+                System.out.println("Tabla Historial con Tipo de Producto " + mysql9);
+                ResultSet rs9 = st1.executeQuery(mysql9);
                   
-                XYChart.Series<String, Integer> dataSeries4 = new XYChart.Series<>();
+                XYChart.Series<String, Integer> dataSeries9 = new XYChart.Series<>();
                
                 // crea la variable para almacenar las leyendas
                 leyenda =  FXCollections.observableArrayList();
 
-                while(rs4.next()){
-                    leyenda.add(""+rs4.getString(1)); // se agrega como leyenda el campo que que quiera, debe coincidir con la serie
-                    dataSeries4.getData().add(new XYChart.Data<>(""+rs4.getString(1), rs4.getInt(2))); // posicion 1 es la leyenda    
+                while(rs9.next()){
+                    leyenda.add(""+rs9.getString(1)); // se agrega como leyenda el campo que que quiera, debe coincidir con la serie
+                    dataSeries9.getData().add(new XYChart.Data<>(""+rs9.getString(1), rs9.getInt(2))); // posicion 1 es la leyenda    
                 }
                 Eje.setCategories(leyenda);  // se asigna la leyenda a la grafica
-                grafSentencia.getData().addAll(dataSeries4); // se agrega la serie de datos
+                grafSentencia.getData().addAll(dataSeries9); // se agrega la serie de datos
             }
             catch(ClassNotFoundException | SQLException e){
                 System.out.println("Error de conexión de SQL SERVER" + e);
